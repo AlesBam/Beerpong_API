@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       
       console.log(`Sending data to Google Sheets - Sheet: ${sheetName}`);
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycbyYfrF7NrOUrsUgeJEWnCAWTvo64D06S5a8WJad-RplPmqlJKmtgGMsmd-9b69A14V1/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzE3tSmecaQwTnxDfEVGEDubLq_XpxrQt7UYduSImWdKNRW-Nf3ptTJpcd_Ndl9dY8a/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payloadForGoogleScript)
