@@ -10,8 +10,8 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      // Extract league information from the request body
-      const { results, league } = req.body;
+      // Extract league information and timestamp from the request body
+      const { results, league, timestamp } = req.body;
       
       // Determine which sheet to use based on league parameter
       let sheetName = 'Sheet1'; // Default sheet
@@ -23,22 +23,26 @@ export default async function handler(req, res) {
       }
       // If league is undefined or any other value, use 'Sheet1' (default)
       
-      // Add sheet information to the payload sent to Google Apps Script
+      // Use client-side timestamp if provided, otherwise generate server-side timestamp
+      const matchTimestamp = timestamp || new Date().toISOString();
+      
+      // Add sheet information and timestamp to the payload sent to Google Apps Script
       const payloadForGoogleScript = {
         results: results,
-        sheetName: sheetName
+        sheetName: sheetName,
+        timestamp: matchTimestamp
       };
       
-      console.log(`Sending data to Google Sheets - Sheet: ${sheetName}`);
+      console.log(`Sending data to Google Sheets - Sheet: ${sheetName}, Timestamp: ${matchTimestamp}`);
       
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzE3tSmecaQwTnxDfEVGEDubLq_XpxrQt7UYduSImWdKNRW-Nf3ptTJpcd_Ndl9dY8a/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbyTeamqg0oLs_Bw8TEiIpm6NHOO-H9YM9fQs6sJ0Y0H7JvkPFnyW6UrNnKVnqSVra-4/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payloadForGoogleScript)
       });
       
       const data = await response.text();
-      res.status(200).json({ success: true, data, sheetName });
+      res.status(200).json({ success: true, data, sheetName, timestamp: matchTimestamp });
     } catch (error) {
       console.error('Error in API handler:', error);
       res.status(500).json({ success: false, error: error.toString() });
