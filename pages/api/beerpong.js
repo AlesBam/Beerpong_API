@@ -23,38 +23,19 @@ export default async function handler(req, res) {
       }
       // If league is undefined or any other value, use 'Sheet1' (default)
       
-      // Use client-side timestamp if provided, otherwise generate server-side timestamp
-      let matchTimestamp = timestamp || new Date().toISOString();
-      
-      // Convert to CET timezone if timestamp is provided
-      if (timestamp) {
-        // If client provides timestamp, convert it to CET
-        const date = new Date(timestamp);
-        matchTimestamp = date.toLocaleString('en-CA', {
-          timeZone: 'Europe/Prague',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        }).replace(',', '');
-      } else {
-        // If server generates timestamp, convert to CET
-        const date = new Date();
-        matchTimestamp = date.toLocaleString('en-CA', {
-          timeZone: 'Europe/Prague',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        }).replace(',', '');
-      }
-      
+      const date = new Date(timestamp);
+      const matchTimestamp = date.toLocaleString('en-CA', {
+        timeZone: 'Europe/Prague',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).replace(',', '');
+
+
       // Add sheet information and timestamp to the payload sent to Google Apps Script
       const payloadForGoogleScript = {
         results: results,
