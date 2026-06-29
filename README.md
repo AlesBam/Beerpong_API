@@ -1,4 +1,4 @@
-# 🍺 Beerpong Score API
+# Beerpong Score API
 
 A lightweight serverless API built with **Next.js** and deployed on **Vercel** that acts as a middleware layer between a score tracker client and **Google Sheets** via Google Apps Script. Designed to log beer pong match results into separate league sheets in real time.
 
@@ -62,9 +62,9 @@ Receives match results and forwards them to Google Sheets.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `results` | `any` | ✅ | Match result data (structure defined by score tracker) |
-| `league` | `string` | ❌ | `"PL"` or `"2.League"`. Omit to use default sheet |
-| `timestamp` | `string` | ❌ | ISO 8601 timestamp from client. If omitted, server time is used |
+| `results` | `any` | `true` | Match result data (structure defined by score tracker) |
+| `league` | `string` | `false` | `"PL"` or `"2.League"`. Omit to use default sheet |
+| `timestamp` | `string` | `false` | ISO 8601 timestamp from client. If omitted, server time is used |
 
 **Response — success**
 
